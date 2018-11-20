@@ -18,11 +18,12 @@ def RCtime (PiPin):
     time.sleep(0.1) 
     GPIO.setup(PiPin, GPIO.IN) 
     # Count loops until voltage across 
-    # capacitor reads high on GPIO 
-    while (GPIO.input(PiPin) == GPIO.LOW): 
+    # capacitor reads high on GPIO
+    
+    while (GPIO.input(PiPin) == GPIO.LOW and measurement < 100):
         measurement += 1 
-    return measurement 
+    return 100-measurement 
 # Main program loop 
 while True: 
-    print RCtime(4) 
+    print (RCtime(4))
     # Measure timing using GPIO4
