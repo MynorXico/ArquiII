@@ -5,12 +5,14 @@ import time
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
  
+<<<<<<< HEAD
 
 device_file = glob.glob('/sys/bus/w1/devices/' + '28*')[0] + '/w1_slave'
  
 
 
 def readfile():
+
     f = open(device_file, 'r')
     lines = f.readlines()
     f.close()
@@ -25,8 +27,7 @@ def getTemperatura():
     if equals_pos != -1:
         temp_string = lines[1][equals_pos+2:]
         temp_c = float(temp_string) / 1000.0
-        temp_f = temp_c * 9.0 / 5.0 + 32.0
-        return temp_c, temp_f
+        return temp_c
 	
 while True:
 	print(getTemperatura())	
