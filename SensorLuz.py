@@ -22,7 +22,7 @@ def RCtime (PiPin):
     
     while (GPIO.input(PiPin) == GPIO.LOW and measurement < 100):
         measurement += 1 
-    return 100-measurement 
+    returnmeasurement 
 # Main program loop 
 while True: 
     print (RCtime(4))
