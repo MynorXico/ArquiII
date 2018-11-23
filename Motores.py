@@ -21,8 +21,8 @@ GPIO.setup(36,GPIO.OUT)
 GPIO.setup(38,GPIO.OUT)
 GPIO.setup(40,GPIO.OUT)
 
-x = 0
-y = 0
+x = 5
+y = 5
 
 def clean():
     GPIO.output(31,GPIO.LOW)
@@ -97,30 +97,53 @@ def stop(seconds):
     time.sleep(seconds)
     
 def move(newX,newY):
-    for i in range(x,newX):
-        forward(5)
+    clean()
+    stack = []
+    xRange = x - newX
+    for i in range(xRange):
+        forward(2.76)
+        stop(0.5)
     x = newX
-    right(1)
-    for i in range(y,newY):
-        forward(5)
-    y = newY
+    
+    yRange = y - newY
+    if yRange > 0:
+        left(1.05)
+        for i in range(yRange):
+            forward(2.76)
+            stop(0.5)
+        y = newY
 
-clean()
-forward(2.76)
-stop(0.5)
-right(1.05)
-stop(0.5)
-forward(2.76)
-stop(0.5)
-backwards(2.76)
-stop(0.5)
-right(1.05)
-stop(0.5)
-forward(2.76)
-stop(0.5)
-right(2.1)
-#stop(0.5)
-#left(1.3)
+    #HERE IT GOES THE SENSOR'S CODE
+
+    left(2.10)
+    clean()
+
+def ret(newX,newY):
+    clean()
+    stack = []
+    xRange = x - newX
+    for i in range(xRange):
+        forward(2.76)
+        stop(0.5)
+    x = newX
+    
+    yRange = y - newY
+    if yRange > 0:
+        left(1.05)
+        for i in range(yRange):
+            forward(2.76)
+            stop(0.5)
+        y = newY
+
+    if xRange == 0:
+        left(1.05)
+    else:
+        left(2.10)
+
+    clean()
+
+move(3,3)
+ret(5,5)
 clean()
 print("Ended")
 GPIO.cleanup()
