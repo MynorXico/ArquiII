@@ -4,11 +4,11 @@ import time
 GPIO.setmode(GPIO.BOARD)
 
 #RIGHT
-#MOTOR 1 RR
+#MOTOR 1 DF
 GPIO.setup(31,GPIO.OUT)
 GPIO.setup(33,GPIO.OUT)
 
-#MOTOR 2 RF
+#MOTOR 2 DT
 GPIO.setup(35,GPIO.OUT)
 GPIO.setup(37,GPIO.OUT)
 
@@ -40,24 +40,24 @@ def right(seconds):
     GPIO.output(31,GPIO.LOW)
     GPIO.output(33,GPIO.LOW)
     GPIO.output(35,GPIO.LOW)
-    GPIO.output(37,GPIO.LOW)
+    GPIO.output(37,GPIO.HIGH)
     GPIO.output(32,GPIO.LOW)
-    GPIO.output(36,GPIO.LOW)
+    GPIO.output(36,GPIO.HIGH)
     GPIO.output(38,GPIO.HIGH)
-    GPIO.output(40,GPIO.HIGH)
+    GPIO.output(40,GPIO.LOW)
     time.sleep(seconds)
 
 def left(seconds):
     #Forward_Right_Motor
     print('Left')
     GPIO.output(31,GPIO.LOW)
-    GPIO.output(33,GPIO.LOW)
+    GPIO.output(33,GPIO.HIGH)
     GPIO.output(35,GPIO.HIGH)
-    GPIO.output(37,GPIO.HIGH)
+    GPIO.output(37,GPIO.LOW)
     GPIO.output(32,GPIO.LOW)
     GPIO.output(36,GPIO.LOW)
     GPIO.output(38,GPIO.LOW)
-    GPIO.output(40,GPIO.LOW)
+    GPIO.output(40,GPIO.HIGH)
     time.sleep(seconds)
     
 def backwards(seconds):
