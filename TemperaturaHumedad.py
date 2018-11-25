@@ -2,9 +2,12 @@
 import sys
 import Adafruit_DHT
 
-global humidity
 
-def GetHumdadTemperatura
-    global humidity
-    global temperature
-    humidity, temperature = Adafruit_DHT.read_retry(11, 4)
+
+def GetHumedadTemperatura():
+    humidity, temperature = Adafruit_DHT.read_retry(11, 27)
+    return humidity, temperature
+
+def GetHumedad(PiPin):
+    humidity, temperature = Adafruit_DHT.read_retry(11,PiPin)
+    return humidity

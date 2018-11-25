@@ -1,4 +1,4 @@
-#!/usr/local/bin/python 
+
 # Reading an analogue sensor with 
 # a single GPIO pin 
 # Author : Matt Hawkins 

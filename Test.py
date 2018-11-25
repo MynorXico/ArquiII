@@ -1,0 +1,31 @@
+import RPi.GPIO as GPIO
+import time
+
+GPIO.setmode(GPIO.BOARD)
+
+GPIO.setup(31,GPIO.OUT)
+GPIO.setup(33,GPIO.OUT)
+
+#MOTOR 2 DT
+GPIO.setup(35,GPIO.OUT)
+GPIO.setup(37,GPIO.OUT)
+
+#LEFT
+#MOTOR 3 IF
+GPIO.setup(32,GPIO.OUT)
+GPIO.setup(36,GPIO.OUT)
+
+#MOTOR 4 LR
+GPIO.setup(38,GPIO.OUT)
+GPIO.setup(40,GPIO.OUT)
+
+GPIO.output(31,GPIO.LOW)
+GPIO.output(33,GPIO.LOW)
+GPIO.output(35,GPIO.LOW)
+GPIO.output(37,GPIO.LOW)
+GPIO.output(32,GPIO.LOW)
+GPIO.output(36,GPIO.LOW)
+GPIO.output(38,GPIO.LOW)
+GPIO.output(40,GPIO.LOW)
+
+GPIO.cleanup()
