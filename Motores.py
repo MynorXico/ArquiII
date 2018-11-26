@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 import time
 import math
 #import MainSensores as sensores
-import Conexion
+#import Conexion
 
 GPIO.setmode(GPIO.BOARD)
 
@@ -26,8 +26,9 @@ GPIO.setup(40,GPIO.OUT)
 
 x = 5
 y = 5
-acceleration = 0
-
+acceleration = 0.23
+timeD=3.15
+timeG=1.4
 def clean():
     GPIO.output(31,GPIO.LOW)
     GPIO.output(33,GPIO.LOW)
@@ -109,28 +110,30 @@ def move(newX,newY):
 
     global x
     global y
+    global timeD
+    global timeG
 
     yRange = y - newY
     for i in range(yRange):
-        forward(2.76)
+        forward(timeD)
         stop(0.5)
     y = newY
     
     xRange = x - newX
     if xRange > 0:
-        left(1.30)
+        left(timeG)
         stop(0.5)
         for i in range(xRange):
-            forward(2.76)
+            forward(timeD)
             stop(0.5)
         x = newX
 
     #sensores.Insertar2Minutos()
 
     if newX != 5 or newY !=5:
-        left(1.3)
+        left(timeG)
         stop(0.5)
-        left(1.3)
+        left(timeG)
         stop(0.5)
     clean()
 
@@ -139,31 +142,35 @@ def ret(newX,newY):
 
     global x
     global y
+    global timeD
+    global timeG
+    tempX = x
+    tempY = y
 
     xRange = newX - x
     for i in range(xRange):
-        forward(2.76)
+        forward(timeD)
         stop(0.5)
     x = newX
     
     yRange = newY - y
     if yRange > 0:
         if xRange > 0:
-            right(1.05)
+            right(timeG)
             stop(0.5)
         for i in range(yRange):
-            forward(2.76)
+            forward(timeD)
             stop(0.5)
         y = newY
 
-    if x != 5 or y !=5:
+    if tempX != 5 or tempY !=5:
         if yRange == 0:
-            left(1.3)
+            left(timeG)
             stop(0.5)
         else:
-            left(1.3)
+            left(timeG)
             stop(0.5)
-            left(1.3)
+            left(timeG)
             stop(0.5)
 
     clean()
@@ -252,16 +259,19 @@ def getPosToMove():
     return result
 	
 	
-matriz = getPosToMove()
-print(matriz[0])
-print(matriz[1])
+#matriz = getPosToMove()
+#print(matriz[0])
+#print(matriz[1])
 
 #PREDEFINED TIME
-move(Conexion.getPosToMove())
+#move(Conexion.getPosToMove())
+move(1,1)
 ret(5,5)
+#print(retTime(5))
+#forward(retTime(5))
 
 #CALCULATED TIME
-#moveCalc(3,3)
+#moveCalc(5,4)
 #print(x)
 #print(y)
 #retCalc(5,5)
