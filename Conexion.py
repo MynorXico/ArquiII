@@ -5,11 +5,11 @@ client = MongoClient('mongodb://admin:1admin@ds263500.mlab.com:63500/arquitwo')
 db = client['arquitwo']
 
 #Metodo que todos lo grupos deben usar para insertar a la base de datos
-def InsertarXplorer(dev_id,sen_id, posX, posY, value):
+def InsertarXplorer(sen_id, posX, posY, value):
     collection = db['XPlorer']
     collection.insert_one({
         "Date": datetime.datetime.now(),
-        "Device_ID": dev_id,
+        "Device_ID": 1,
         "Sensor_ID": sen_id,
         "X": posX,
         "Y": posY,
