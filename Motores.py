@@ -1,28 +1,31 @@
 import RPi.GPIO as GPIO
 import time
 import math
-#import MainSensores as sensores
-#import Conexion
+import MainSensores as sensores
+import Conexion
+import atexit
 
-GPIO.setmode(GPIO.BOARD)
+
+
+GPIO.setmode(GPIO.BCM)
 
 #RIGHT
 #MOTOR 1 DF
-GPIO.setup(31,GPIO.OUT)
-GPIO.setup(33,GPIO.OUT)
+GPIO.setup(6,GPIO.OUT)
+GPIO.setup(13,GPIO.OUT)
 
 #MOTOR 2 DT
-GPIO.setup(35,GPIO.OUT)
-GPIO.setup(37,GPIO.OUT)
+GPIO.setup(19,GPIO.OUT)
+GPIO.setup(26,GPIO.OUT)
 
 #LEFT
 #MOTOR 3 IF
-GPIO.setup(32,GPIO.OUT)
-GPIO.setup(36,GPIO.OUT)
+GPIO.setup(12,GPIO.OUT)
+GPIO.setup(16,GPIO.OUT)
 
 #MOTOR 4 IT
-GPIO.setup(38,GPIO.OUT)
-GPIO.setup(40,GPIO.OUT)
+GPIO.setup(20,GPIO.OUT)
+GPIO.setup(21,GPIO.OUT)
 
 x = 5
 y = 5
@@ -30,75 +33,75 @@ acceleration = 0.23
 timeD=3.15
 timeG=1.4
 def clean():
-    GPIO.output(31,GPIO.LOW)
-    GPIO.output(33,GPIO.LOW)
-    GPIO.output(35,GPIO.LOW)
-    GPIO.output(37,GPIO.LOW)
-    GPIO.output(32,GPIO.LOW)
-    GPIO.output(36,GPIO.LOW)
-    GPIO.output(38,GPIO.LOW)
-    GPIO.output(40,GPIO.LOW)
+    GPIO.output(6,GPIO.LOW)
+    GPIO.output(13,GPIO.LOW)
+    GPIO.output(19,GPIO.LOW)
+    GPIO.output(26,GPIO.LOW)
+    GPIO.output(12,GPIO.LOW)
+    GPIO.output(16,GPIO.LOW)
+    GPIO.output(20,GPIO.LOW)
+    GPIO.output(21,GPIO.LOW)
 
 def right(seconds):
     #Forward_Left_Motor
     print('Right')
-    GPIO.output(31,GPIO.LOW)
-    GPIO.output(33,GPIO.LOW)
-    GPIO.output(35,GPIO.LOW)
-    GPIO.output(37,GPIO.HIGH)
-    GPIO.output(32,GPIO.LOW)
-    GPIO.output(36,GPIO.HIGH)
-    GPIO.output(38,GPIO.HIGH)
-    GPIO.output(40,GPIO.LOW)
+    GPIO.output(6,GPIO.LOW)
+    GPIO.output(13,GPIO.LOW)
+    GPIO.output(19,GPIO.LOW)
+    GPIO.output(26,GPIO.HIGH)
+    GPIO.output(12,GPIO.LOW)
+    GPIO.output(16,GPIO.HIGH)
+    GPIO.output(20,GPIO.HIGH)
+    GPIO.output(21,GPIO.LOW)
     time.sleep(seconds)
 
 def left(seconds):
     #Forward_Right_Motor
     print('Left')
-    GPIO.output(31,GPIO.LOW)
-    GPIO.output(33,GPIO.HIGH)
-    GPIO.output(35,GPIO.HIGH)
-    GPIO.output(37,GPIO.LOW)
-    GPIO.output(32,GPIO.LOW)
-    GPIO.output(36,GPIO.LOW)
-    GPIO.output(38,GPIO.LOW)
-    GPIO.output(40,GPIO.HIGH)
+    GPIO.output(6,GPIO.LOW)
+    GPIO.output(13,GPIO.HIGH)
+    GPIO.output(19,GPIO.HIGH)
+    GPIO.output(26,GPIO.LOW)
+    GPIO.output(12,GPIO.LOW)
+    GPIO.output(16,GPIO.LOW)
+    GPIO.output(20,GPIO.LOW)
+    GPIO.output(21,GPIO.HIGH)
     time.sleep(seconds)
     
 def backwards(seconds):
     print('Backwards')
-    GPIO.output(31,GPIO.HIGH)
-    GPIO.output(33,GPIO.LOW)
-    GPIO.output(35,GPIO.LOW)
-    GPIO.output(37,GPIO.HIGH)
-    GPIO.output(32,GPIO.HIGH)
-    GPIO.output(36,GPIO.LOW)
-    GPIO.output(38,GPIO.LOW)
-    GPIO.output(40,GPIO.HIGH)
+    GPIO.output(6,GPIO.HIGH)
+    GPIO.output(13,GPIO.LOW)
+    GPIO.output(19,GPIO.LOW)
+    GPIO.output(26,GPIO.HIGH)
+    GPIO.output(12,GPIO.HIGH)
+    GPIO.output(16,GPIO.LOW)
+    GPIO.output(20,GPIO.LOW)
+    GPIO.output(21,GPIO.HIGH)
     time.sleep(seconds)
     
 def forward(seconds):
     print('Forward')
-    GPIO.output(31,GPIO.LOW)
-    GPIO.output(33,GPIO.HIGH)
-    GPIO.output(35,GPIO.HIGH)
-    GPIO.output(37,GPIO.LOW)
-    GPIO.output(32,GPIO.LOW)
-    GPIO.output(36,GPIO.HIGH)
-    GPIO.output(38,GPIO.HIGH)
-    GPIO.output(40,GPIO.LOW)
+    GPIO.output(6,GPIO.LOW)
+    GPIO.output(13,GPIO.HIGH)
+    GPIO.output(19,GPIO.HIGH)
+    GPIO.output(26,GPIO.LOW)
+    GPIO.output(12,GPIO.LOW)
+    GPIO.output(16,GPIO.HIGH)
+    GPIO.output(20,GPIO.HIGH)
+    GPIO.output(21,GPIO.LOW)
     time.sleep(seconds)
     
 def stop(seconds):
     print('Stop')
-    GPIO.output(31,GPIO.LOW)
-    GPIO.output(33,GPIO.LOW)
-    GPIO.output(35,GPIO.LOW)
-    GPIO.output(37,GPIO.LOW)
-    GPIO.output(32,GPIO.LOW)
-    GPIO.output(36,GPIO.LOW)
-    GPIO.output(38,GPIO.LOW)
-    GPIO.output(40,GPIO.LOW)
+    GPIO.output(6,GPIO.LOW)
+    GPIO.output(13,GPIO.LOW)
+    GPIO.output(19,GPIO.LOW)
+    GPIO.output(26,GPIO.LOW)
+    GPIO.output(12,GPIO.LOW)
+    GPIO.output(16,GPIO.LOW)
+    GPIO.output(20,GPIO.LOW)
+    GPIO.output(21,GPIO.LOW)
     time.sleep(seconds)
 
 def retTime(meters):
@@ -128,7 +131,7 @@ def move(newX,newY):
             stop(0.5)
         x = newX
 
-    #sensores.Insertar2Minutos()
+    sensores.Insertar2Minutos()
 
     if newX != 5 or newY !=5:
         left(timeG)
@@ -193,8 +196,7 @@ def moveCalc(newX,newY):
         forward(retTime(xRange))
         stop(0.5)
         x = newX
-
-    #sensores.Insertar2Minutos()
+    sensores.Insertar2Minutos()
 
     if newX != 5 or newY !=5:
         left(1.3)
@@ -264,8 +266,10 @@ def getPosToMove():
 #print(matriz[1])
 
 #PREDEFINED TIME
-#move(Conexion.getPosToMove())
-move(1,1)
+
+moveToX, moveToY = Conexion.getPosToMove()
+print("X: " + str(moveToX) + "Y: " + str(moveToY))
+move(moveToX, moveToY)
 ret(5,5)
 #print(retTime(5))
 #forward(retTime(5))
@@ -275,6 +279,11 @@ ret(5,5)
 #print(x)
 #print(y)
 #retCalc(5,5)
+
+def exit_handler():
+    clean()
+    print("Ended")
+    GPIO.cleanup()
 
 clean()
 print("Ended")

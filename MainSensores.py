@@ -4,8 +4,12 @@ import TemperatureSensor
 #import SensorProx
 import Conexion
 import time
+import RPi.GPIO as GPIO
 
 
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(5, GPIO.OUT)
+GPIO.output(5, GPIO.LOW)
 GPIOLuz = 17
 GPIOHumedad = 23
 
@@ -36,19 +40,21 @@ def InsertarDato(sen_id, value):
     global xactual
     global yactual
     Conexion.InsertarXplorer(sen_id, xactual, yactual, value)
-    print("Se insertó valor de " + str(value) + " para " + sensores[sen_id])
+    print("Se inserta valor de " + str(value) + " para " + sensores[sen_id])
 
 
 def Insertar2Minutos():
         ObtenerXY()
-	startingTime = time.time()
-	while(time.time()<=startingTime+120):
+        startingTime = time.time()
+        GPIO.output(5, GPIO.HIGH)
+        while(time.time()<=startingTime+120):
             inicia = time.time()
+            GPIO.output(5, GPIO.HIGH)
             InsertarDato(sen_id_luz, SensorLuz.GetLight(GPIOLuz))
             InsertarDato(sen_id_humedad, TemperaturaHumedad.GetHumedad(GPIOHumedad))
             InsertarDato(sen_id_temperatura, TemperatureSensor.getTemperatura())
             #InsertarDato(sen_id_distancia, SensorProx.getDistance())
             while(time.time() <= inicia+2): 
                 print("waiting")
-
-
+            GPIO.output(5, GPIO.LOW)
+        GPIO.output(5, GPIO.LOW)

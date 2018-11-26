@@ -1,16 +1,8 @@
-#!/usr/local/bin/python 
-# Reading an analogue sensor with 
-# a single GPIO pin 
-# Author : Matt Hawkins 
-# Distribution : Raspbian 
-# Python : 2.7 
-# GPIO : RPi.GPIO v3.1.0a 
+from gpiozero import LightSensor, Buzzer
 import RPi.GPIO as GPIO, time , os
-# Tell the GPIO library to use 
-# Broadcom GPIO references 
-GPIO.setmode(GPIO.BCM) 
-# Define function to measure charge time 
-def GetLight (PiPin): 
+#GPIO.setmode(GPIO.BOARD) 
+
+def GetLight1 (PiPin): 
     measurement = 0 
     # Discharge capacitor 
     GPIO.setup(PiPin, GPIO.OUT) 
@@ -22,5 +14,8 @@ def GetLight (PiPin):
     
     while (GPIO.input(PiPin) == GPIO.LOW):
         measurement += 1 
-    return measurement 
+    return measurement
 
+def GetLight(PiPin):
+    ldr = LightSensor(PiPin)
+    return (1-ldr.value)*4000
