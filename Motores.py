@@ -8,7 +8,7 @@ import atexit
 
 
 GPIO.setmode(GPIO.BCM)
-
+#GPIO.setwarnings(False)
 #RIGHT
 #MOTOR 1 DF
 GPIO.setup(6,GPIO.OUT)
@@ -30,8 +30,9 @@ GPIO.setup(21,GPIO.OUT)
 x = 5
 y = 5
 acceleration = 0.23
-timeD=3.15
-timeG=1.4
+timeD=2.9
+timeGD=0.96
+timeGI=0.91
 def clean():
     GPIO.output(6,GPIO.LOW)
     GPIO.output(13,GPIO.LOW)
@@ -114,7 +115,8 @@ def move(newX,newY):
     global x
     global y
     global timeD
-    global timeG
+    global timeGI
+    global timeGD
 
     yRange = y - newY
     for i in range(yRange):
@@ -124,7 +126,7 @@ def move(newX,newY):
     
     xRange = x - newX
     if xRange > 0:
-        left(timeG)
+        left(timeGI)
         stop(0.5)
         for i in range(xRange):
             forward(timeD)
@@ -134,9 +136,9 @@ def move(newX,newY):
     sensores.Insertar2Minutos()
 
     if newX != 5 or newY !=5:
-        left(timeG)
+        left(timeGI)
         stop(0.5)
-        left(timeG)
+        left(timeGI)
         stop(0.5)
     clean()
 
@@ -146,7 +148,8 @@ def ret(newX,newY):
     global x
     global y
     global timeD
-    global timeG
+    global timeGI
+    global timeGD
     tempX = x
     tempY = y
 
@@ -159,7 +162,7 @@ def ret(newX,newY):
     yRange = newY - y
     if yRange > 0:
         if xRange > 0:
-            right(timeG)
+            right(timeGD)
             stop(0.5)
         for i in range(yRange):
             forward(timeD)
@@ -168,12 +171,12 @@ def ret(newX,newY):
 
     if tempX != 5 or tempY !=5:
         if yRange == 0:
-            left(timeG)
+            left(timeGI)
             stop(0.5)
         else:
-            left(timeG)
+            left(timeGI)
             stop(0.5)
-            left(timeG)
+            left(timeGI)
             stop(0.5)
 
     clean()
@@ -270,9 +273,11 @@ def getPosToMove():
 moveToX, moveToY = Conexion.getPosToMove()
 print("X: " + str(moveToX) + "Y: " + str(moveToY))
 move(moveToX, moveToY)
+#move(5,5)
 ret(5,5)
+#right(timeGD)
 #print(retTime(5))
-#forward(retTime(5))
+#forward(timeD)
 
 #CALCULATED TIME
 #moveCalc(5,4)
@@ -280,10 +285,10 @@ ret(5,5)
 #print(y)
 #retCalc(5,5)
 
-def exit_handler():
-    clean()
-    print("Ended")
-    GPIO.cleanup()
+#def exit_handler():
+#    clean()
+#    print("Ended")
+#    GPIO.cleanup()
 
 clean()
 print("Ended")
