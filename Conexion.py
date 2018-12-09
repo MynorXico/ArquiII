@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 import datetime
 
-client = MongoClient('mongodb://admin:1admin@ds263500.mlab.com:63500/arquitwo')
+client = MongoClient('mongodb://admin2:admin2@ds263500.mlab.com:63500/arquitwo')
 db = client['arquitwo']
 
 #Metodo que todos lo grupos deben usar para insertar a la base de datos
