@@ -1,8 +1,8 @@
 import RPi.GPIO as GPIO
 import time
 import math
-#import MainSensores as sensores
-#import Conexion
+import MainSensores as sensores
+import Conexion
 
 GPIO.setmode(GPIO.BOARD)
 
